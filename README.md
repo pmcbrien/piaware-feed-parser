@@ -1,3 +1,8 @@
+Author Patrick McBrien
+
+
+
+
 # Strip Bay
 
 A macOS app that shows who owns the aircraft your PiAware receiver is hearing.
