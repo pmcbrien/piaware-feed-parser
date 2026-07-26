@@ -1,0 +1,23 @@
+[Unit]
+Description=Strip Bay - ownership view for PiAware
+After=network-online.target dump1090-fa.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/strip-bay
+EnvironmentFile=-/home/pi/strip-bay/config.env
+ExecStart=/usr/bin/python3 /home/pi/strip-bay/server.py --headless
+Restart=on-failure
+RestartSec=10
+
+# The service only reads a local database and talks to the local feed.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/pi/strip-bay
+
+[Install]
+WantedBy=multi-user.target

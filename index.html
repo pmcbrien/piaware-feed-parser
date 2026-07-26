@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Strip Bay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="rail">
+  <div class="rail__identity">
+    <span class="rail__mark" aria-hidden="true"></span>
+    <h1 class="rail__title">Strip Bay</h1>
+    <p class="rail__sub" id="receiver-note">Starting up</p>
+  </div>
+
+  <div class="rail__counts" role="status" aria-live="polite">
+    <span class="tally" data-band="1090"><b id="count-1090">0</b><i>1090</i></span>
+    <span class="tally" data-band="978"><b id="count-978">0</b><i>978</i></span>
+    <span class="tally tally--named"><b id="count-named">0</b><i>named</i></span>
+  </div>
+
+  <div class="rail__controls">
+    <label class="field">
+      <span class="field__label">Filter</span>
+      <input id="filter" type="search" placeholder="owner, tail, callsign" autocomplete="off">
+    </label>
+    <div class="segmented" role="group" aria-label="Sort strips by">
+      <button type="button" class="seg is-on" data-sort="range">Range</button>
+      <button type="button" class="seg" data-sort="altitude">Altitude</button>
+      <button type="button" class="seg" data-sort="arrival">Newest</button>
+    </div>
+    <label class="switch">
+      <input id="only-named" type="checkbox">
+      <span>Named owners only</span>
+    </label>
+    <button type="button" class="chip" id="open-setup">Setup</button>
+  </div>
+</header>
+
+<main class="bay" id="bay">
+  <p class="bay__empty" id="empty-state">Starting up.</p>
+  <ol class="bay__strips" id="strips"></ol>
+</main>
+
+<footer class="footplate">
+  <span id="registry-note">Checking the registry</span>
+  <span id="feed-note"></span>
+  <button type="button" class="chip chip--quiet" id="quit" hidden>Quit Strip Bay</button>
+</footer>
+
+<!-- registration card -->
+<div class="card" id="card" hidden>
+  <div class="card__scrim" data-close></div>
+  <article class="card__sheet" role="dialog" aria-modal="true" aria-labelledby="card-tail">
+    <header class="card__head">
+      <p class="card__eyebrow">Aircraft registration</p>
+      <h2 class="card__tail" id="card-tail">—</h2>
+      <button type="button" class="card__close" data-close aria-label="Close">Close</button>
+    </header>
+    <div class="card__body" id="card-body"></div>
+  </article>
+</div>
+
+<!-- setup -->
+<div class="card" id="setup" hidden>
+  <div class="card__scrim" data-setup-close></div>
+  <article class="card__sheet" role="dialog" aria-modal="true" aria-labelledby="setup-title">
+    <header class="card__head">
+      <p class="card__eyebrow">Strip Bay</p>
+      <h2 class="card__tail" id="setup-title">Setup</h2>
+      <button type="button" class="card__close" data-setup-close aria-label="Close">Close</button>
+    </header>
+
+    <div class="card__body">
+      <section class="block">
+        <h3 class="block__title">Your receiver</h3>
+        <p class="hint">The address of the Pi running PiAware. A hostname or an
+          IP both work; Strip Bay finds the feed paths itself.</p>
+        <div class="row">
+          <input id="host-input" type="text" class="input" placeholder="piaware.local"
+                 autocomplete="off" spellcheck="false">
+          <button type="button" class="chip" id="test-host">Test</button>
+        </div>
+        <p class="result" id="host-result"></p>
+      </section>
+
+      <section class="block">
+        <h3 class="block__title">Receiver position</h3>
+        <p class="hint">Only needed if PiAware has no position set. Leave both
+          blank to read it from the receiver.</p>
+        <div class="row">
+          <input id="lat-input" type="text" class="input input--short" placeholder="latitude"
+                 inputmode="decimal" autocomplete="off">
+          <input id="lon-input" type="text" class="input input--short" placeholder="longitude"
+                 inputmode="decimal" autocomplete="off">
+        </div>
+      </section>
+
+      <section class="block">
+        <h3 class="block__title">Ownership registry</h3>
+        <p class="hint" id="registry-state">Checking.</p>
+        <div class="progress" id="build-progress" hidden>
+          <div class="progress__bar" id="build-bar"></div>
+        </div>
+        <p class="result" id="build-message"></p>
+        <div class="row">
+          <button type="button" class="chip chip--go" id="build-registry">Build registry</button>
+          <label class="switch">
+            <input id="want-opensky" type="checkbox">
+            <span>Include non-US aircraft</span>
+          </label>
+        </div>
+        <p class="hint">Around 60 MB from the FAA, a couple of minutes on a
+          decent connection. Rebuild every week or so to pick up new
+          registrations.</p>
+      </section>
+
+      <div class="row row--end">
+        <button type="button" class="chip chip--go" id="save-setup">Save</button>
+      </div>
+
+      <p class="notice">FAA registration data is public record, and for
+        individually owned aircraft the registrant address is often a home
+        address. Strip Bay keeps street detail off the strips and shows it only
+        on a registration card.</p>
+    </div>
+  </article>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
