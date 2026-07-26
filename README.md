@@ -1,7 +1,7 @@
 Author Patrick McBrien
 
-![alt text]([https://github.com/pmcbrien/pyaware-feed-parser/3.png](https://github.com/pmcbrien/piaware-feed-parser/blob/main/3.png))
-![alt text]([https://github.com/pmcbrien/pyaware-feed-parser/4.png](https://github.com/pmcbrien/piaware-feed-parser/blob/main/4.png))
+![alt text](https://github.com/pmcbrien/piaware-feed-parser/blob/main/3.png)
+![alt text](https://github.com/pmcbrien/piaware-feed-parser/blob/main/4.png)
 
 # Strip Bay
 
